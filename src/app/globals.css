@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* EcoTrace design tokens — "Organic Biophilic" / Sustainability palette.
+   Keep in sync with tailwind.config.ts. */
+:root {
+  --color-primary: #059669;
+  --color-secondary: #10b981;
+  --color-accent: #0891b2;
+  --color-surface: #ecfdf5;
+  --color-ink: #064e3b;
+  --color-warning: #fbbf24;
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
