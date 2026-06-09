@@ -2,7 +2,7 @@
 
 > Understand, track, and reduce your personal carbon footprint — privately, in your browser.
 
-**Live demo:** _[add your Vercel URL here](https://ecotracex.vercel.app/)_
+**Live demo:** _(https://ecotracex.vercel.app/)_
 <!-- ![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg) -->
 
 EcoTrace turns a two-minute questionnaire into a personalized climate action plan: your
