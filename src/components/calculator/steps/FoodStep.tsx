@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { RadioGroup } from '@/components/ui';
 import { DIETS, FOOD_WASTE_LEVELS, type Diet, type FoodWaste } from '@/lib';
 import { DIET_LABELS, FOOD_WASTE_LABELS } from '@/components/labels';
@@ -10,7 +11,7 @@ export interface FoodStepProps {
 }
 
 /** Step 4 — diet and food waste. */
-export function FoodStep({ value, onChange, errors }: FoodStepProps) {
+export function FoodStep({ value, onChange, errors }: FoodStepProps): JSX.Element {
   return (
     <div className="flex flex-col gap-8">
       <RadioGroup

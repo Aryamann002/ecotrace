@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { RadioGroup } from '@/components/ui';
 import { REGIONS, type Region } from '@/lib';
 import { REGION_LABELS } from '@/components/labels';
@@ -18,7 +19,7 @@ export interface RegionStepProps {
 }
 
 /** Step 1 — region drives grid intensity and the benchmarks used downstream. */
-export function RegionStep({ value, onChange, errors }: RegionStepProps) {
+export function RegionStep({ value, onChange, errors }: RegionStepProps): JSX.Element {
   return (
     <RadioGroup
       legend="Where do you live?"

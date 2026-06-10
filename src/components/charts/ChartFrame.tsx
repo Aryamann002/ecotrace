@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type JSX, type ReactNode } from 'react';
 
 export interface ChartFrameProps {
   title: string;
@@ -18,7 +18,7 @@ export interface ChartFrameProps {
  * via a keyboard-operable `<details>`) convey the same information. This is how we
  * satisfy "never rely on color alone" and provide a table alternative for each chart.
  */
-export function ChartFrame({ title, summary, children, table }: ChartFrameProps) {
+export function ChartFrame({ title, summary, children, table }: ChartFrameProps): JSX.Element {
   return (
     <figure className="m-0">
       <figcaption className="sr-only">{summary}</figcaption>

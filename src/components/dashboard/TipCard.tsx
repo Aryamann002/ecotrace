@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { Badge, Icon } from '@/components/ui';
 import { formatCo2, type Tip } from '@/lib';
 import { CATEGORY_META, EFFORT_LABELS } from '@/components/labels';
@@ -15,7 +16,7 @@ export interface TipCardProps {
 }
 
 /** A single ranked reduction action, showing estimated saving and effort. */
-export function TipCard({ tip, rank }: TipCardProps) {
+export function TipCard({ tip, rank }: TipCardProps): JSX.Element {
   const category = CATEGORY_META[tip.category];
   return (
     <li className="flex gap-4 rounded-2xl border border-primary/10 bg-white p-5">

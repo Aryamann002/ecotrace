@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { NumberField, SelectField } from '@/components/ui';
 import { CAR_FUELS, type CarFuel } from '@/lib';
 import { CAR_FUEL_LABELS, toOptions } from '@/components/labels';
@@ -10,7 +11,7 @@ export interface TransportStepProps {
 }
 
 /** Step 2 — driving, transit, and flights. */
-export function TransportStep({ value, onChange, errors }: TransportStepProps) {
+export function TransportStep({ value, onChange, errors }: TransportStepProps): JSX.Element {
   return (
     <div className="grid gap-6 sm:grid-cols-2">
       <SelectField

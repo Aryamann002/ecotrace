@@ -1,5 +1,6 @@
 'use client';
 
+import type { JSX } from 'react';
 import { Bar, BarChart, Cell, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { formatCo2, formatPercent, type CategoryShare } from '@/lib';
 import { CATEGORY_META } from '@/components/labels';
@@ -10,7 +11,7 @@ export interface CategoryBarChartProps {
 }
 
 /** Horizontal bar chart of emissions by category, with a data-table fallback. */
-export function CategoryBarChart({ breakdown }: CategoryBarChartProps) {
+export function CategoryBarChart({ breakdown }: CategoryBarChartProps): JSX.Element {
   const data = breakdown.map((b) => ({
     name: CATEGORY_META[b.key].label,
     kg: b.kg,
@@ -56,11 +57,7 @@ export function CategoryBarChart({ breakdown }: CategoryBarChartProps) {
       }
     >
       <ResponsiveContainer width="100%" height={Math.max(180, data.length * 56)}>
-        <BarChart
-          data={data}
-          layout="vertical"
-          margin={{ top: 4, right: 16, bottom: 4, left: 8 }}
-        >
+        <BarChart data={data} layout="vertical" margin={{ top: 4, right: 16, bottom: 4, left: 8 }}>
           <XAxis type="number" hide />
           <YAxis
             type="category"

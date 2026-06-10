@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from 'react';
+import { type JSX, type HTMLAttributes } from 'react';
 import { cn } from '@/lib/cn';
 
 /**
@@ -9,7 +9,7 @@ interface CardProps extends HTMLAttributes<HTMLElement> {
   as?: 'div' | 'section' | 'article' | 'li';
 }
 
-export function Card({ as: Tag = 'div', className, children, ...rest }: CardProps) {
+export function Card({ as: Tag = 'div', className, children, ...rest }: CardProps): JSX.Element {
   return (
     <Tag
       className={cn(

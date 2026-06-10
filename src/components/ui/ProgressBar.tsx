@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { cn } from '@/lib/cn';
 
 export interface ProgressBarProps {
@@ -32,7 +33,7 @@ export function ProgressBar({
   valueText,
   tone = 'primary',
   className,
-}: ProgressBarProps) {
+}: ProgressBarProps): JSX.Element {
   const clamped = Math.min(Math.max(value, min), max);
   const pct = max > min ? ((clamped - min) / (max - min)) * 100 : 0;
 

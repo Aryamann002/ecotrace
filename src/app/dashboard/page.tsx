@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import type { Metadata } from 'next';
 import { DashboardLoader } from '@/components/dashboard/DashboardLoader';
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
  * Dashboard route. A thin Server Component shell around the interactive client
  * loader, which reads the saved answers from localStorage and renders the results.
  */
-export default function DashboardPage() {
+export default function DashboardPage(): JSX.Element {
   return (
     <main id="main" className="mx-auto max-w-5xl px-4 py-12 sm:px-6">
       <header className="mb-8">

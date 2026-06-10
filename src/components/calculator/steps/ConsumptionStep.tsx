@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { Checkbox, RadioGroup } from '@/components/ui';
 import { SHOPPING_LEVELS, type Shopping } from '@/lib';
 import { SHOPPING_LABELS } from '@/components/labels';
@@ -10,7 +11,7 @@ export interface ConsumptionStepProps {
 }
 
 /** Step 5 — shopping habits and recycling. */
-export function ConsumptionStep({ value, onChange, errors }: ConsumptionStepProps) {
+export function ConsumptionStep({ value, onChange, errors }: ConsumptionStepProps): JSX.Element {
   return (
     <div className="flex flex-col gap-8">
       <RadioGroup

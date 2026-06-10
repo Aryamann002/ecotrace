@@ -1,4 +1,4 @@
-import { useId } from 'react';
+import { type JSX, useId } from 'react';
 import { cn } from '@/lib/cn';
 
 export interface RadioOption<T extends string> {
@@ -32,7 +32,7 @@ export function RadioGroup<T extends string>({
   onChange,
   hint,
   error,
-}: RadioGroupProps<T>) {
+}: RadioGroupProps<T>): JSX.Element {
   const baseId = useId();
   const hintId = `${baseId}-hint`;
   const errorId = `${baseId}-error`;
@@ -81,7 +81,11 @@ export function RadioGroup<T extends string>({
           );
         })}
       </div>
-      <p id={errorId} aria-live="polite" className="min-h-[1.25rem] text-sm font-medium text-red-700">
+      <p
+        id={errorId}
+        aria-live="polite"
+        className="min-h-[1.25rem] text-sm font-medium text-red-700"
+      >
         {error}
       </p>
     </fieldset>

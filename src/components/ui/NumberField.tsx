@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { Field, fieldControlClasses } from './Field';
 
 export interface NumberFieldProps {
@@ -30,7 +31,7 @@ export function NumberField({
   max,
   step,
   unit,
-}: NumberFieldProps) {
+}: NumberFieldProps): JSX.Element {
   return (
     <Field label={label} hint={hint} error={error} required={required}>
       {({ controlId, describedBy, invalid }) => (

@@ -1,5 +1,6 @@
-import { Icon } from './Icon';
+import type { JSX } from 'react';
 import { cn } from '@/lib/cn';
+import { Icon } from './Icon';
 
 export interface StepperProps {
   steps: ReadonlyArray<string>;
@@ -14,7 +15,7 @@ export interface StepperProps {
  * `aria-current="step"` on the active one, plus a single summary line ("Step n of
  * m") for quick orientation. Past steps show a check; the rest show their number.
  */
-export function Stepper({ steps, current }: StepperProps) {
+export function Stepper({ steps, current }: StepperProps): JSX.Element {
   return (
     <nav aria-label="Progress">
       <p className="sr-only">
@@ -30,7 +31,8 @@ export function Stepper({ steps, current }: StepperProps) {
                 className={cn(
                   'flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-semibold transition-colors',
                   status === 'complete' && 'bg-primary text-white',
-                  status === 'current' && 'bg-primary text-white ring-2 ring-primary/30 ring-offset-2 ring-offset-surface',
+                  status === 'current' &&
+                    'bg-primary text-white ring-2 ring-primary/30 ring-offset-2 ring-offset-surface',
                   status === 'upcoming' && 'bg-white text-ink/50 ring-1 ring-primary/20',
                 )}
               >
@@ -48,7 +50,11 @@ export function Stepper({ steps, current }: StepperProps) {
               >
                 {label}
                 <span className="sr-only">
-                  {status === 'complete' ? ' (completed)' : status === 'current' ? ' (current)' : ''}
+                  {status === 'complete'
+                    ? ' (completed)'
+                    : status === 'current'
+                      ? ' (current)'
+                      : ''}
                 </span>
               </span>
               {i < steps.length - 1 ? (

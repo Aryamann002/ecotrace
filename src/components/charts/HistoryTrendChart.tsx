@@ -1,5 +1,6 @@
 'use client';
 
+import type { JSX } from 'react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { formatTonnes, type HistoryEntry } from '@/lib';
 import { ChartFrame, tdClass, thClass } from './ChartFrame';
@@ -16,7 +17,7 @@ function shortDate(iso: string): string {
 }
 
 /** Area chart of total footprint over time, with a data-table fallback. */
-export function HistoryTrendChart({ history }: HistoryTrendChartProps) {
+export function HistoryTrendChart({ history }: HistoryTrendChartProps): JSX.Element {
   const data = history.map((h) => ({ date: shortDate(h.date), tonnes: h.totalTonnes }));
 
   const first = history[0];

@@ -1,5 +1,6 @@
-import { Field, fieldControlClasses } from './Field';
+import type { JSX } from 'react';
 import { cn } from '@/lib/cn';
+import { Field, fieldControlClasses } from './Field';
 
 export interface SelectOption<T extends string> {
   value: T;
@@ -29,7 +30,7 @@ export function SelectField<T extends string>({
   hint,
   error,
   required,
-}: SelectFieldProps<T>) {
+}: SelectFieldProps<T>): JSX.Element {
   return (
     <Field label={label} hint={hint} error={error} required={required}>
       {({ controlId, describedBy, invalid }) => (

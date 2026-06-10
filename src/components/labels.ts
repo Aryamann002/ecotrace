@@ -1,12 +1,4 @@
-import type {
-  CarFuel,
-  CategoryKey,
-  Diet,
-  FoodWaste,
-  HeatingFuel,
-  Region,
-  Shopping,
-} from '@/lib';
+import type { CarFuel, CategoryKey, Diet, FoodWaste, HeatingFuel, Region, Shopping } from '@/lib';
 import type { IconName } from '@/components/ui';
 
 /**

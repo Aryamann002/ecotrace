@@ -1,6 +1,5 @@
-import type { ReactNode } from 'react';
-import { Card, Icon } from '@/components/ui';
-import type { IconName } from '@/components/ui';
+import { type JSX, type ReactNode } from 'react';
+import { Card, Icon, type IconName } from '@/components/ui';
 
 export interface StatCardProps {
   label: string;
@@ -10,7 +9,7 @@ export interface StatCardProps {
 }
 
 /** Headline metric card: a label, a large value, and optional supporting content. */
-export function StatCard({ label, value, icon, children }: StatCardProps) {
+export function StatCard({ label, value, icon, children }: StatCardProps): JSX.Element {
   return (
     <Card className="flex flex-col gap-2">
       <div className="flex items-center gap-2 text-primary-dark">

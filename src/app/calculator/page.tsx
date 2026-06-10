@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import type { Metadata } from 'next';
 import { CalculatorForm } from '@/components/calculator/CalculatorForm';
 
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
  * Calculator route. A thin Server Component shell around the interactive client
  * form, so only the form code ships as client JS.
  */
-export default function CalculatorPage() {
+export default function CalculatorPage(): JSX.Element {
   return (
     <main id="main" className="mx-auto max-w-3xl px-4 py-12 sm:px-6">
       <header className="mb-8">
@@ -19,8 +20,7 @@ export default function CalculatorPage() {
           Estimate your footprint
         </h1>
         <p className="mt-2 text-ink/70">
-          A few quick questions. Your answers stay on this device, and you can refine them any
-          time.
+          A few quick questions. Your answers stay on this device, and you can refine them any time.
         </p>
       </header>
       <CalculatorForm />

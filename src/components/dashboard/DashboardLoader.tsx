@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { type JSX, useEffect, useState } from 'react';
 import { loadHistory, loadInput, type FootprintInput, type HistoryEntry } from '@/lib';
 import { ButtonLink, Card, Icon } from '@/components/ui';
 import { DashboardView } from './DashboardView';
@@ -16,7 +16,7 @@ type State =
  * hydration mismatch), then hands the pure {@link DashboardView} its props. If
  * nothing has been calculated yet, it nudges the visitor to the calculator.
  */
-export function DashboardLoader() {
+export function DashboardLoader(): JSX.Element {
   const [state, setState] = useState<State>({ phase: 'loading' });
 
   useEffect(() => {

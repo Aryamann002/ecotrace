@@ -1,7 +1,5 @@
-import { forwardRef } from 'react';
-import type { ButtonHTMLAttributes } from 'react';
-import Link from 'next/link';
-import type { LinkProps } from 'next/link';
+import { type JSX, forwardRef, type ButtonHTMLAttributes } from 'react';
+import Link, { type LinkProps } from 'next/link';
 import { cn } from '@/lib/cn';
 
 type Variant = 'primary' | 'accent' | 'secondary' | 'ghost';
@@ -60,7 +58,7 @@ export function ButtonLink({
   className,
   children,
   ...rest
-}: ButtonLinkProps) {
+}: ButtonLinkProps): JSX.Element {
   return (
     <Link className={cn(base, variants[variant], sizes[size], className)} {...rest}>
       {children}

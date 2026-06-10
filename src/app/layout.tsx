@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import type { Metadata } from 'next';
 import { Inter, Sora } from 'next/font/google';
 import './globals.css';
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
     'Estimate your annual carbon footprint, see where it comes from, and get personalized, high-impact actions to reduce it.',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: React.ReactNode }): JSX.Element {
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable}`}>
       <body className="flex min-h-screen flex-col font-sans">

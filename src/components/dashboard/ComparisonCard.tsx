@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { Card, Badge, Icon } from '@/components/ui';
 import type { ComparisonStatus } from '@/lib';
 
@@ -23,7 +24,12 @@ export interface ComparisonCardProps {
   detail: string;
 }
 
-export function ComparisonCard({ title, status, headline, detail }: ComparisonCardProps) {
+export function ComparisonCard({
+  title,
+  status,
+  headline,
+  detail,
+}: ComparisonCardProps): JSX.Element {
   const meta = STATUS_META[status];
   return (
     <Card className="flex flex-col gap-3">

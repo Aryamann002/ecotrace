@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { NumberField, SelectField } from '@/components/ui';
 import { HEATING_FUELS, HEATING_FUEL_UNIT, type HeatingFuel } from '@/lib';
 import { HEATING_FUEL_LABELS, toOptions } from '@/components/labels';
@@ -20,7 +21,7 @@ const HEATING_AMOUNT_HINT: Record<Exclude<HeatingFuel, 'none'>, string> = {
 };
 
 /** Step 3 — household energy. Totals are attributed per person via household size. */
-export function HomeStep({ value, onChange, errors }: HomeStepProps) {
+export function HomeStep({ value, onChange, errors }: HomeStepProps): JSX.Element {
   return (
     <div className="grid gap-6 sm:grid-cols-2">
       <NumberField

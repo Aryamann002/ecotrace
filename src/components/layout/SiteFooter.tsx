@@ -1,10 +1,11 @@
+import type { JSX } from 'react';
 import { Icon } from '@/components/ui';
 
 /**
  * Site footer with a methodology/transparency note. Static Server Component.
  * Links are same-origin only, keeping the strict CSP intact.
  */
-export function SiteFooter() {
+export function SiteFooter(): JSX.Element {
   return (
     <footer className="mt-20 border-t border-primary/10 bg-white/50">
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -16,8 +17,8 @@ export function SiteFooter() {
             <span className="font-display font-semibold text-ink">EcoTrace</span>
           </div>
           <p className="max-w-md text-sm text-ink/60">
-            Estimates are for awareness and relative comparison, not audit-grade carbon
-            accounting. Your data stays on your device — nothing is sent to a server.
+            Estimates are for awareness and relative comparison, not audit-grade carbon accounting.
+            Your data stays on your device — nothing is sent to a server.
           </p>
         </div>
         <p className="mt-6 text-xs text-ink/50">

@@ -1,3 +1,4 @@
+import type { JSX } from 'react';
 import { calculateFootprint, formatCo2, HEATING_FUEL_UNIT, type FootprintInput } from '@/lib';
 import {
   CAR_FUEL_LABELS,
@@ -18,7 +19,7 @@ interface Row {
 }
 
 /** Step 6 — a read-only recap plus a live estimate of the annual total. */
-export function ReviewStep({ input }: ReviewStepProps) {
+export function ReviewStep({ input }: ReviewStepProps): JSX.Element {
   const result = calculateFootprint(input);
 
   const groups: { heading: string; rows: Row[] }[] = [

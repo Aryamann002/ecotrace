@@ -1,5 +1,5 @@
-import { ButtonLink, Card, Icon } from '@/components/ui';
-import type { IconName } from '@/components/ui';
+import type { JSX } from 'react';
+import { ButtonLink, Card, Icon, type IconName } from '@/components/ui';
 import { TARGET_TONNES } from '@/lib';
 
 /**
@@ -44,7 +44,7 @@ const TRUST: ReadonlyArray<{ icon: IconName; title: string; body: string }> = [
   },
 ];
 
-export default function HomePage() {
+export default function HomePage(): JSX.Element {
   return (
     <main id="main">
       {/* Hero */}
@@ -88,7 +88,9 @@ export default function HomePage() {
           <h2 id="how-heading" className="font-display text-3xl font-bold text-ink">
             How it works
           </h2>
-          <p className="mt-3 text-ink/70">Three steps from a quick questionnaire to a clear plan.</p>
+          <p className="mt-3 text-ink/70">
+            Three steps from a quick questionnaire to a clear plan.
+          </p>
         </div>
         <ol className="mt-12 grid gap-6 md:grid-cols-3">
           {STEPS.map((step, i) => (

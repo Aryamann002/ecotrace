@@ -1,5 +1,4 @@
-import { useId } from 'react';
-import type { ReactNode } from 'react';
+import { type JSX, useId, type ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 /**
@@ -15,11 +14,22 @@ export interface FieldShellProps {
   error?: string;
   required?: boolean;
   /** Render-prop receiving the ids the control must apply. */
-  children: (ids: { controlId: string; describedBy: string | undefined; invalid: boolean }) => ReactNode;
+  children: (ids: {
+    controlId: string;
+    describedBy: string | undefined;
+    invalid: boolean;
+  }) => ReactNode;
   className?: string;
 }
 
-export function Field({ label, hint, error, required, children, className }: FieldShellProps) {
+export function Field({
+  label,
+  hint,
+  error,
+  required,
+  children,
+  className,
+}: FieldShellProps): JSX.Element {
   const controlId = useId();
   const hintId = `${controlId}-hint`;
   const errorId = `${controlId}-error`;
@@ -44,7 +54,11 @@ export function Field({ label, hint, error, required, children, className }: Fie
         </p>
       ) : null}
       {children({ controlId, describedBy, invalid })}
-      <p id={errorId} aria-live="polite" className="min-h-[1.25rem] text-sm font-medium text-red-700">
+      <p
+        id={errorId}
+        aria-live="polite"
+        className="min-h-[1.25rem] text-sm font-medium text-red-700"
+      >
         {error}
       </p>
     </div>

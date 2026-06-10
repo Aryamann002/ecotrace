@@ -1,5 +1,6 @@
 'use client';
 
+import type { JSX } from 'react';
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts';
 import { formatCo2, formatPercent, type CategoryShare } from '@/lib';
 import { CATEGORY_META } from '@/components/labels';
@@ -13,7 +14,7 @@ export interface CategoryDonutChartProps {
  * Donut chart of category share. A visible legend (text + swatch) accompanies it so
  * meaning never depends on color alone; the table carries the precise figures.
  */
-export function CategoryDonutChart({ breakdown }: CategoryDonutChartProps) {
+export function CategoryDonutChart({ breakdown }: CategoryDonutChartProps): JSX.Element {
   const nonZero = breakdown.filter((b) => b.kg > 0);
   const data = (nonZero.length > 0 ? nonZero : breakdown).map((b) => ({
     key: b.key,

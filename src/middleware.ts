@@ -17,7 +17,7 @@ import { NextResponse, type NextRequest } from 'next/server';
  *
  * See SECURITY.md and https://nextjs.org/docs/app/guides/content-security-policy.
  */
-export function middleware(request: NextRequest) {
+export function middleware(request: NextRequest): NextResponse {
   const nonce = Buffer.from(crypto.randomUUID()).toString('base64');
   const isDev = process.env.NODE_ENV === 'development';
 

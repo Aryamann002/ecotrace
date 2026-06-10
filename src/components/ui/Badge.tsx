@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { type JSX, type ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
 type Tone = 'primary' | 'accent' | 'warning' | 'neutral' | 'danger';
@@ -18,7 +18,7 @@ export interface BadgeProps {
 }
 
 /** Small status/label pill. Carries its own text — never color-only. */
-export function Badge({ tone = 'neutral', children, className }: BadgeProps) {
+export function Badge({ tone = 'neutral', children, className }: BadgeProps): JSX.Element {
   return (
     <span
       className={cn(
