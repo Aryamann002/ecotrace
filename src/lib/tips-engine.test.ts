@@ -1,18 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { makeInput as build } from '@/test/factories';
 import { generateTips } from './tips-engine';
 import { calculateFootprint } from './calculator';
-import { footprintInputSchema, type FootprintInput } from './schemas';
-
-function build(overrides: Record<string, unknown> = {}): FootprintInput {
-  return footprintInputSchema.parse({
-    region: 'GLOBAL',
-    transport: {},
-    home: {},
-    food: {},
-    consumption: {},
-    ...overrides,
-  });
-}
 
 const heavyInput = build({
   transport: { carKmPerWeek: 150, carFuel: 'petrol', flightsLongHaulPerYear: 1 },

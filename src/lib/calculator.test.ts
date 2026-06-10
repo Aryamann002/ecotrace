@@ -1,18 +1,7 @@
 import { describe, expect, it } from 'vitest';
+import { makeInput as build } from '@/test/factories';
 import { calculateFootprint, heatingFactorFor } from './calculator';
-import { footprintInputSchema, type FootprintInput } from './schemas';
 import { GRID_INTENSITY, HEAT_PUMP_COP } from './emission-factors';
-
-function build(overrides: Record<string, unknown> = {}): FootprintInput {
-  return footprintInputSchema.parse({
-    region: 'GLOBAL',
-    transport: {},
-    home: {},
-    food: {},
-    consumption: {},
-    ...overrides,
-  });
-}
 
 describe('calculateFootprint', () => {
   it('computes a known baseline scenario exactly', () => {
@@ -45,7 +34,9 @@ describe('calculateFootprint', () => {
   });
 
   it('produces lower transport emissions for an electric car than petrol', () => {
-    const petrol = calculateFootprint(build({ transport: { carKmPerWeek: 200, carFuel: 'petrol' } }));
+    const petrol = calculateFootprint(
+      build({ transport: { carKmPerWeek: 200, carFuel: 'petrol' } }),
+    );
     const electric = calculateFootprint(
       build({ transport: { carKmPerWeek: 200, carFuel: 'electric' } }),
     );
@@ -134,8 +125,12 @@ describe('heatingFactorFor', () => {
   });
 
   it('makes a heat pump cleaner than resistance heating', () => {
-    expect(heatingFactorFor('heatpump', 'GLOBAL')).toBeCloseTo(GRID_INTENSITY.GLOBAL / HEAT_PUMP_COP);
-    expect(heatingFactorFor('heatpump', 'GLOBAL')).toBeLessThan(heatingFactorFor('electric', 'GLOBAL'));
+    expect(heatingFactorFor('heatpump', 'GLOBAL')).toBeCloseTo(
+      GRID_INTENSITY.GLOBAL / HEAT_PUMP_COP,
+    );
+    expect(heatingFactorFor('heatpump', 'GLOBAL')).toBeLessThan(
+      heatingFactorFor('electric', 'GLOBAL'),
+    );
   });
 
   it('returns zero for no heating', () => {
