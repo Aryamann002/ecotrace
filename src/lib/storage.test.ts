@@ -121,3 +121,60 @@ describe('history persistence', () => {
     expect(history[history.length - 1]?.date).toBe('d104');
   });
 });
+
+describe('hostile environments', () => {
+  it('fails closed when accessing localStorage itself throws', () => {
+    // Strict privacy modes / sandboxed iframes throw on property access.
+    delete globalRef.localStorage;
+    Object.defineProperty(globalRef, 'localStorage', {
+      configurable: true,
+      get() {
+        throw new Error('denied');
+      },
+    });
+    try {
+      expect(isStorageAvailable()).toBe(false);
+      expect(loadInput()).toBeNull();
+      expect(saveInput(defaultFootprintInput)).toBe(false);
+    } finally {
+      delete globalRef.localStorage;
+    }
+  });
+
+  it('returns false when writes throw (e.g. quota exceeded)', () => {
+    const storage = createMockStorage();
+    storage.setItem = () => {
+      throw new Error('QuotaExceededError');
+    };
+    globalRef.localStorage = storage;
+    expect(saveInput(defaultFootprintInput)).toBe(false);
+  });
+
+  it('returns null when reads throw', () => {
+    const storage = createMockStorage();
+    storage.getItem = () => {
+      throw new Error('SecurityError');
+    };
+    globalRef.localStorage = storage;
+    expect(loadGoal()).toBeNull();
+  });
+
+  it('swallows errors when removal throws', () => {
+    const storage = createMockStorage();
+    storage.removeItem = () => {
+      throw new Error('SecurityError');
+    };
+    globalRef.localStorage = storage;
+    expect(() => clearGoal()).not.toThrow();
+  });
+});
+
+describe('removal without storage', () => {
+  it('is a safe no-op when storage is unavailable', () => {
+    delete globalRef.localStorage;
+    expect(() => {
+      clearGoal();
+      clearHistory();
+    }).not.toThrow();
+  });
+});

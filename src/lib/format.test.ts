@@ -46,3 +46,14 @@ describe('formatPercent', () => {
     expect(formatPercent(Number.POSITIVE_INFINITY)).toBe('—');
   });
 });
+
+describe('non-finite handling across helpers', () => {
+  it('formatTonnes returns an em dash for non-finite values', () => {
+    expect(formatTonnes(Number.NaN)).toBe('—');
+    expect(formatTonnes(Number.NEGATIVE_INFINITY)).toBe('—');
+  });
+
+  it('formatCo2 uses tonnes for large negative magnitudes', () => {
+    expect(formatCo2(-1500)).toBe('-1.50 t CO₂e');
+  });
+});

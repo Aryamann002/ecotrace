@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { makeInput as build } from '@/test/factories';
+import { makeInput } from '@/test/factories';
 import { calculateFootprint, heatingFactorFor } from './calculator';
 import { GRID_INTENSITY, HEAT_PUMP_COP } from './emission-factors';
 
 describe('calculateFootprint', () => {
   it('computes a known baseline scenario exactly', () => {
     const result = calculateFootprint(
-      build({
+      makeInput({
         food: { diet: 'vegan', foodWaste: 'low' },
         consumption: { shopping: 'minimal', recycles: true },
       }),
@@ -22,7 +22,7 @@ describe('calculateFootprint', () => {
 
   it('adds petrol car emissions correctly', () => {
     const result = calculateFootprint(
-      build({
+      makeInput({
         transport: { carKmPerWeek: 100, carFuel: 'petrol' },
         food: { diet: 'vegan', foodWaste: 'low' },
         consumption: { shopping: 'minimal', recycles: true },
@@ -35,23 +35,27 @@ describe('calculateFootprint', () => {
 
   it('produces lower transport emissions for an electric car than petrol', () => {
     const petrol = calculateFootprint(
-      build({ transport: { carKmPerWeek: 200, carFuel: 'petrol' } }),
+      makeInput({ transport: { carKmPerWeek: 200, carFuel: 'petrol' } }),
     );
     const electric = calculateFootprint(
-      build({ transport: { carKmPerWeek: 200, carFuel: 'electric' } }),
+      makeInput({ transport: { carKmPerWeek: 200, carFuel: 'electric' } }),
     );
     expect(electric.categories.transport).toBeLessThan(petrol.categories.transport);
   });
 
   it('is monotonic in car distance', () => {
-    const less = calculateFootprint(build({ transport: { carKmPerWeek: 100, carFuel: 'petrol' } }));
-    const more = calculateFootprint(build({ transport: { carKmPerWeek: 200, carFuel: 'petrol' } }));
+    const less = calculateFootprint(
+      makeInput({ transport: { carKmPerWeek: 100, carFuel: 'petrol' } }),
+    );
+    const more = calculateFootprint(
+      makeInput({ transport: { carKmPerWeek: 200, carFuel: 'petrol' } }),
+    );
     expect(more.totalKg).toBeGreaterThan(less.totalKg);
   });
 
   it('sums category breakdown to the total', () => {
     const result = calculateFootprint(
-      build({
+      makeInput({
         transport: { carKmPerWeek: 50, carFuel: 'diesel', flightsLongHaulPerYear: 1 },
         home: {
           electricityKwhPerMonth: 300,
@@ -73,10 +77,10 @@ describe('calculateFootprint', () => {
 
   it('attributes home emissions per person via household size', () => {
     const one = calculateFootprint(
-      build({ home: { electricityKwhPerMonth: 100, householdSize: 1, heatingFuel: 'none' } }),
+      makeInput({ home: { electricityKwhPerMonth: 100, householdSize: 1, heatingFuel: 'none' } }),
     );
     const two = calculateFootprint(
-      build({ home: { electricityKwhPerMonth: 100, householdSize: 2, heatingFuel: 'none' } }),
+      makeInput({ home: { electricityKwhPerMonth: 100, householdSize: 2, heatingFuel: 'none' } }),
     );
     expect(one.details.electricity).toBeCloseTo(576); // 100 * 12 * 0.48
     expect(two.details.electricity).toBeCloseTo(one.details.electricity / 2);
@@ -84,14 +88,16 @@ describe('calculateFootprint', () => {
 
   it('zeroes electricity emissions at 100% renewable', () => {
     const result = calculateFootprint(
-      build({ home: { electricityKwhPerMonth: 500, renewablePercent: 100, heatingFuel: 'none' } }),
+      makeInput({
+        home: { electricityKwhPerMonth: 500, renewablePercent: 100, heatingFuel: 'none' },
+      }),
     );
     expect(result.details.electricity).toBe(0);
   });
 
   it('computes LPG heating from the per-kilogram factor', () => {
     const result = calculateFootprint(
-      build({
+      makeInput({
         home: {
           heatingFuel: 'lpg',
           heatingAmountPerMonth: 10,
@@ -106,7 +112,7 @@ describe('calculateFootprint', () => {
 
   it('sums short- and long-haul flights', () => {
     const result = calculateFootprint(
-      build({ transport: { flightsLongHaulPerYear: 2, flightsShortHaulPerYear: 3 } }),
+      makeInput({ transport: { flightsLongHaulPerYear: 2, flightsShortHaulPerYear: 3 } }),
     );
     // 2 * 1100 + 3 * 250 = 2950
     expect(result.details.flights).toBeCloseTo(2950);
