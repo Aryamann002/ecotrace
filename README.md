@@ -3,6 +3,7 @@
 > Understand, track, and reduce your personal carbon footprint — privately, in your browser.
 
 **Live demo:** _(https://ecotracex.vercel.app/)_
+
 <!-- ![CI](https://github.com/OWNER/REPO/actions/workflows/ci.yml/badge.svg) -->
 
 EcoTrace turns a two-minute questionnaire into a personalized climate action plan: your
@@ -89,9 +90,11 @@ fail-safe), `format`. These are rendered by ~34 small, typed React components
   [`SECURITY.md`](./SECURITY.md).
 - **Efficiency** — React Server Components by default, a dynamically-imported chart bundle,
   self-hosted fonts (no third-party requests), minimal client state.
-- **Testing** — **54 unit tests across 16 suites** (Vitest) covering the logic core, with
-  coverage thresholds (90% lines/functions/statements, 85% branches) enforced in
-  `vitest.config.ts` and CI; `@axe-core/playwright` is wired for accessibility E2E.
+- **Testing** — **99 tests across 13 suites** (Vitest + Testing Library): the `src/lib` logic
+  core sits at **100% statement, branch, function, and line coverage**, with thresholds
+  (98% lines/statements, 100% functions, 95% branches) enforced in `vitest.config.ts` and CI;
+  component suites cover the calculator flow, goal tracking, and step rendering, and
+  `@axe-core/playwright` is wired for accessibility E2E.
 - **Accessibility (WCAG 2.1 AA)** — labelled inputs, `fieldset`/`legend` groups, errors via
   `aria-describedby` + `aria-live`, full keyboard support, visible focus, ≥44px targets, a
   skip link, charts paired with data tables (never color alone), and `prefers-reduced-motion`
@@ -106,13 +109,13 @@ npm run dev        # http://localhost:3000
 
 ### Scripts
 
-| Script | Description |
-|---|---|
-| `npm run dev` | Dev server |
-| `npm run build` / `npm start` | Production build / serve |
-| `npm run test` / `npm run test:coverage` | Unit tests / coverage |
-| `npm run lint` / `npm run typecheck` | ESLint / TypeScript checks |
-| `npm run format` | Prettier |
+| Script                                   | Description                |
+| ---------------------------------------- | -------------------------- |
+| `npm run dev`                            | Dev server                 |
+| `npm run build` / `npm start`            | Production build / serve   |
+| `npm run test` / `npm run test:coverage` | Unit tests / coverage      |
+| `npm run lint` / `npm run typecheck`     | ESLint / TypeScript checks |
+| `npm run format`                         | Prettier                   |
 
 ## Project structure
 

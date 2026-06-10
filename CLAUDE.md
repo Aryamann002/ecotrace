@@ -27,7 +27,7 @@ behaviour must not change.
 - **Stay client-side only.** No backend, no secrets. Don't weaken the CSP or security headers in
   `next.config.ts` / `src/middleware.ts`. Keep all domain logic **pure** and in `src/lib`.
 - **Baseline before touching anything:** run `npm run lint && npm run typecheck && npm run test &&
-  npm run build` and confirm green, so you can prove no regression afterwards.
+npm run build` and confirm green, so you can prove no regression afterwards.
 - **Small, atomic commits** using Conventional Commits (`refactor:`, `test:`, `chore:`). Re-run
   the four checks before each commit.
 

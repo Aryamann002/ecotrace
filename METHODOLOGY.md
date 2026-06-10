@@ -12,13 +12,14 @@ comparison — not audit-grade carbon accounting. Emission factors live in
 - **US EPA** — Emission Factors for Greenhouse Gas Inventories.
 - **IEA / Ember** — electricity grid carbon intensity by region (2023).
 - **Our World in Data** — CO₂ and Greenhouse Gas Emissions; per-capita averages.
-- **Scarborough et al. (2023)**, *Nature Food* — dietary greenhouse gas footprints by diet type.
+- **Scarborough et al. (2023)**, _Nature Food_ — dietary greenhouse gas footprints by diet type.
 
 ## Categories & formulas
 
 All results are annualized (×52 for weekly inputs, ×12 for monthly).
 
 **Transport**
+
 - Car: `km/week × 52 × fuelFactor` — petrol 0.192, diesel 0.171, hybrid 0.111, electric
   0.053 kg CO₂e/km.
 - Public transport: `km/week × 52 × 0.06` kg CO₂e/passenger-km (blended bus + rail).
@@ -26,6 +27,7 @@ All results are annualized (×52 for weekly inputs, ×12 for monthly).
   non-CO₂ radiative-forcing uplift).
 
 **Home** (attributed per person by dividing by household size)
+
 - Electricity: `kWh/month × 12 × gridIntensity(region) × (1 − renewable%)`.
 - Heating: `amount/month × 12 × heatingFactor`. The amount is the **physical quantity of
   fuel** burned, in the fuel's natural unit — people know how much fuel they use, not "kWh
@@ -38,11 +40,13 @@ All results are annualized (×52 for weekly inputs, ×12 for monthly).
 - Grid intensity (kg CO₂e/kWh): US 0.37, UK 0.21, EU 0.25, IN 0.71, Global 0.48.
 
 **Food**
+
 - `dietFactor × foodWasteMultiplier`. Diets (kg CO₂e/yr): vegan 1100, vegetarian 1400,
   pescatarian 1700, low-meat 2200, medium-meat 2800, high-meat 3600. Waste multiplier: low
   1.0, medium 1.1, high 1.25.
 
 **Consumption**
+
 - `shoppingFactor × recyclingMultiplier`. Shopping (kg CO₂e/yr): minimal 600, average 1500,
   frequent 3000. Recycling multiplier 0.92 when the person recycles routinely.
 
