@@ -1,121 +1,18 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import {
-  addHistoryEntry,
-  calculateFootprint,
-  consumptionInputSchema,
-  defaultFootprintInput,
-  foodInputSchema,
-  footprintInputSchema,
-  homeInputSchema,
-  loadInput,
-  saveInput,
-  transportInputSchema,
-  type FootprintInput,
-  type Region,
-} from '@/lib';
+import type { JSX } from 'react';
 import { Button, Card, Icon, Stepper } from '@/components/ui';
-import { RegionStep } from './steps/RegionStep';
-import { TransportStep } from './steps/TransportStep';
-import { HomeStep } from './steps/HomeStep';
-import { FoodStep } from './steps/FoodStep';
-import { ConsumptionStep } from './steps/ConsumptionStep';
-import { ReviewStep } from './steps/ReviewStep';
-import { validateStep, type FieldErrors } from './validation';
-
-const STEP_LABELS = ['Region', 'Transport', 'Home', 'Food', 'Shopping', 'Review'] as const;
-const LAST_STEP = STEP_LABELS.length - 1;
+import { StepPanel } from './StepPanel';
+import { LAST_STEP, STEP_LABELS, useCalculatorForm } from './useCalculatorForm';
 
 /**
- * Multi-step questionnaire. Holds the full `FootprintInput` in local state, seeded
- * from `loadInput()` after mount (kept out of the initial render to avoid an SSR
- * hydration mismatch). Each step is validated against its slice of the Zod schema
- * before advancing; the final submit validates the whole thing, persists it, records
- * a history point, and routes to the dashboard.
+ * Multi-step questionnaire shell. All state, validation, and persistence live in
+ * `useCalculatorForm`; this component only lays out the stepper, the active
+ * step's fields (via `StepPanel`), and the navigation controls.
  */
-export function CalculatorForm() {
-  const router = useRouter();
-  const [input, setInput] = useState<FootprintInput>(defaultFootprintInput);
-  const [step, setStep] = useState(0);
-  const [errors, setErrors] = useState<FieldErrors>({});
-  const [status, setStatus] = useState('');
-  const headingRef = useRef<HTMLHeadingElement>(null);
-
-  // Seed from previously saved answers once, on the client only.
-  useEffect(() => {
-    const saved = loadInput();
-    if (saved) setInput(saved);
-  }, []);
-
-  // Move focus to the step heading on each step change for keyboard/SR users.
-  useEffect(() => {
-    headingRef.current?.focus();
-  }, [step]);
-
-  const update = (patch: Partial<FootprintInput>) => setInput((prev) => ({ ...prev, ...patch }));
-
-  function validateCurrent(): boolean {
-    let result: ReturnType<typeof validateStep>;
-    switch (step) {
-      case 0:
-        result = validateStep(footprintInputSchema.shape.region, input.region);
-        break;
-      case 1:
-        result = validateStep(transportInputSchema, input.transport);
-        break;
-      case 2:
-        result = validateStep(homeInputSchema, input.home);
-        break;
-      case 3:
-        result = validateStep(foodInputSchema, input.food);
-        break;
-      case 4:
-        result = validateStep(consumptionInputSchema, input.consumption);
-        break;
-      default:
-        result = { ok: true, data: input };
-    }
-    if (result.ok) {
-      setErrors({});
-      return true;
-    }
-    // For the region step the path is empty, so map the root error onto `region`.
-    setErrors(step === 0 ? { region: Object.values(result.errors)[0] ?? 'Please choose an option.' } : result.errors);
-    setStatus('Please fix the highlighted fields before continuing.');
-    return false;
-  }
-
-  function handleNext() {
-    if (!validateCurrent()) return;
-    setStatus('');
-    setStep((s) => Math.min(s + 1, LAST_STEP));
-  }
-
-  function handleBack() {
-    setErrors({});
-    setStatus('');
-    setStep((s) => Math.max(s - 1, 0));
-  }
-
-  function handleSubmit() {
-    const result = validateStep(footprintInputSchema, input);
-    if (!result.ok) {
-      setErrors(result.errors);
-      setStatus('Some answers are invalid. Please review the earlier steps.');
-      return;
-    }
-    const valid = result.data;
-    saveInput(valid);
-    const footprint = calculateFootprint(valid);
-    addHistoryEntry({
-      date: new Date().toISOString(),
-      totalKg: footprint.totalKg,
-      totalTonnes: footprint.totalTonnes,
-    });
-    router.push('/dashboard');
-  }
+export function CalculatorForm(): JSX.Element {
+  const { input, step, errors, status, headingRef, update, handleNext, handleBack, handleSubmit } =
+    useCalculatorForm();
 
   return (
     <div className="flex flex-col gap-8">
@@ -142,42 +39,7 @@ export function CalculatorForm() {
           </p>
 
           <div className="mt-6">
-            {step === 0 && (
-              <RegionStep
-                value={input.region}
-                errors={errors}
-                onChange={(region: Region) => update({ region })}
-              />
-            )}
-            {step === 1 && (
-              <TransportStep
-                value={input.transport}
-                errors={errors}
-                onChange={(patch) => update({ transport: { ...input.transport, ...patch } })}
-              />
-            )}
-            {step === 2 && (
-              <HomeStep
-                value={input.home}
-                errors={errors}
-                onChange={(patch) => update({ home: { ...input.home, ...patch } })}
-              />
-            )}
-            {step === 3 && (
-              <FoodStep
-                value={input.food}
-                errors={errors}
-                onChange={(patch) => update({ food: { ...input.food, ...patch } })}
-              />
-            )}
-            {step === 4 && (
-              <ConsumptionStep
-                value={input.consumption}
-                errors={errors}
-                onChange={(patch) => update({ consumption: { ...input.consumption, ...patch } })}
-              />
-            )}
-            {step === LAST_STEP && <ReviewStep input={input} />}
+            <StepPanel step={step} input={input} errors={errors} onUpdate={update} />
           </div>
 
           {/* Polite live region announces validation problems / step status. */}
