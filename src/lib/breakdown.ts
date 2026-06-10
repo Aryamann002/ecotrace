@@ -1,5 +1,5 @@
-import { CATEGORY_KEYS } from './schemas';
-import type { CategoryKey, FootprintResult } from './schemas';
+import { round } from './number';
+import { CATEGORY_KEYS, type CategoryKey, type FootprintResult } from './schemas';
 
 export interface CategoryShare {
   key: CategoryKey;
@@ -19,7 +19,7 @@ export function categoryBreakdown(result: FootprintResult): CategoryShare[] {
   const total = result.totalKg;
   return CATEGORY_KEYS.map((key) => {
     const kg = result.categories[key];
-    const percent = total > 0 ? Math.round((kg / total) * 1000) / 10 : 0;
+    const percent = total > 0 ? round((kg / total) * 100, 1) : 0;
     return { key, kg, percent };
   }).sort((a, b) => b.kg - a.kg);
 }

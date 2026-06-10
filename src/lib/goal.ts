@@ -1,3 +1,4 @@
+import { round } from './number';
 import type { Goal } from './schemas';
 
 export interface GoalProgress {
@@ -11,10 +12,6 @@ export interface GoalProgress {
   remainingTonnes: number;
   /** True once the current footprint is at or below the target. */
   achieved: boolean;
-}
-
-function round(n: number): number {
-  return Math.round(n * 100) / 100;
 }
 
 /**

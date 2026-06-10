@@ -5,6 +5,7 @@
  * barrel here means the UI never reaches into individual modules, so the internal
  * file layout can change without touching component code.
  */
+export * from './number';
 export * from './emission-factors';
 export * from './schemas';
 export * from './calculator';

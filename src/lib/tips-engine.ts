@@ -7,8 +7,10 @@ import {
   SHOPPING_FACTOR,
   RECYCLING_MULTIPLIER,
   WEEKS_PER_YEAR,
+  type Diet,
+  type Shopping,
 } from './emission-factors';
-import type { Diet, Shopping } from './emission-factors';
+import { round } from './number';
 import type { CategoryKey, FootprintInput, FootprintResult } from './schemas';
 
 export type Effort = 'low' | 'medium' | 'high';
@@ -23,6 +25,15 @@ export interface Tip {
   effort: Effort;
 }
 
+/** Annual car emissions (kg CO₂e) above which a modal-shift tip is worthwhile. */
+const MODAL_SHIFT_CAR_THRESHOLD_KG = 500;
+
+/** Fraction of weekly car distance assumed shifted to transit/active travel. */
+const MODAL_SHIFT_FRACTION = 0.25;
+
+/** Renewable share that fully decarbonises an electricity tariff, percent. */
+const FULL_RENEWABLE_PERCENT = 100;
+
 /** The next lower-impact diet for each diet (null for the lowest). */
 const LOWER_IMPACT_DIET: Record<Diet, Diet | null> = {
   high_meat: 'medium_meat',
@@ -32,10 +43,6 @@ const LOWER_IMPACT_DIET: Record<Diet, Diet | null> = {
   vegetarian: 'vegan',
   vegan: null,
 };
-
-function round(n: number): number {
-  return Math.round(n * 100) / 100;
-}
 
 function humanizeDiet(diet: Diet): string {
   return diet.replace('_', ' ');
@@ -90,8 +97,11 @@ export function generateTips(
   }
 
   // 3. Shift some car trips to transit / active travel.
-  if (result.details.car > 500 && transport.publicTransitKmPerWeek < transport.carKmPerWeek) {
-    const shiftedKm = transport.carKmPerWeek * 0.25 * WEEKS_PER_YEAR;
+  if (
+    result.details.car > MODAL_SHIFT_CAR_THRESHOLD_KG &&
+    transport.publicTransitKmPerWeek < transport.carKmPerWeek
+  ) {
+    const shiftedKm = transport.carKmPerWeek * MODAL_SHIFT_FRACTION * WEEKS_PER_YEAR;
     const saving = shiftedKm * (CAR_FUEL_FACTOR[transport.carFuel] - TRANSIT_FACTOR);
     if (saving > 0) {
       tips.push({
@@ -107,8 +117,9 @@ export function generateTips(
   }
 
   // 4. Switch to a renewable electricity tariff.
-  if (home.renewablePercent < 100 && result.details.electricity > 0) {
-    const saving = result.details.electricity * (1 - home.renewablePercent / 100);
+  if (home.renewablePercent < FULL_RENEWABLE_PERCENT && result.details.electricity > 0) {
+    const saving =
+      result.details.electricity * (1 - home.renewablePercent / FULL_RENEWABLE_PERCENT);
     tips.push({
       id: 'renewable-tariff',
       category: 'home',
@@ -156,7 +167,8 @@ export function generateTips(
   if (consumption.shopping !== 'minimal') {
     const reducedLevel: Shopping = consumption.shopping === 'frequent' ? 'average' : 'minimal';
     const multiplier = consumption.recycles ? RECYCLING_MULTIPLIER : 1;
-    const saving = (SHOPPING_FACTOR[consumption.shopping] - SHOPPING_FACTOR[reducedLevel]) * multiplier;
+    const saving =
+      (SHOPPING_FACTOR[consumption.shopping] - SHOPPING_FACTOR[reducedLevel]) * multiplier;
     tips.push({
       id: 'buy-less',
       category: 'consumption',

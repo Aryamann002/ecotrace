@@ -11,14 +11,11 @@ import {
   RECYCLING_MULTIPLIER,
   WEEKS_PER_YEAR,
   MONTHS_PER_YEAR,
+  type HeatingFuel,
+  type Region,
 } from './emission-factors';
-import type { HeatingFuel, Region } from './emission-factors';
+import { round } from './number';
 import type { FootprintInput, FootprintResult } from './schemas';
-
-/** Round to 2 decimal places to avoid noisy floating-point output. */
-function round(n: number): number {
-  return Math.round(n * 100) / 100;
-}
 
 /**
  * Resolve the heating emission factor for a given fuel and region, in kg CO₂e per
