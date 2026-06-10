@@ -1,6 +1,12 @@
-import { z } from 'zod';
-import { footprintInputSchema, goalSchema, historySchema } from './schemas';
-import type { FootprintInput, Goal, HistoryEntry } from './schemas';
+import { type z } from 'zod';
+import {
+  footprintInputSchema,
+  goalSchema,
+  historySchema,
+  type FootprintInput,
+  type Goal,
+  type HistoryEntry,
+} from './schemas';
 
 /**
  * Safe localStorage layer.
@@ -31,6 +37,7 @@ function getStorage(): Storage | null {
   }
 }
 
+/** True when localStorage is usable in this environment (false during SSR, private modes, etc.). */
 export function isStorageAvailable(): boolean {
   return getStorage() !== null;
 }
@@ -72,26 +79,32 @@ function removeRaw(key: string): void {
   }
 }
 
+/** Persist the questionnaire input; returns false if storage is unavailable or full. */
 export function saveInput(input: FootprintInput): boolean {
   return writeRaw(KEYS.input, input);
 }
 
+/** Load the saved questionnaire input, or null if missing or invalid. */
 export function loadInput(): FootprintInput | null {
   return readValidated(KEYS.input, footprintInputSchema);
 }
 
+/** Persist the reduction goal; returns false if storage is unavailable or full. */
 export function saveGoal(goal: Goal): boolean {
   return writeRaw(KEYS.goal, goal);
 }
 
+/** Load the saved reduction goal, or null if missing or invalid. */
 export function loadGoal(): Goal | null {
   return readValidated(KEYS.goal, goalSchema);
 }
 
+/** Remove any saved reduction goal. */
 export function clearGoal(): void {
   removeRaw(KEYS.goal);
 }
 
+/** Load the footprint history (empty array if missing or invalid). */
 export function loadHistory(): HistoryEntry[] {
   return readValidated(KEYS.history, historySchema) ?? [];
 }
@@ -113,6 +126,7 @@ export function addHistoryEntry(entry: HistoryEntry): HistoryEntry[] {
   return next;
 }
 
+/** Remove all footprint history. */
 export function clearHistory(): void {
   removeRaw(KEYS.history);
 }
